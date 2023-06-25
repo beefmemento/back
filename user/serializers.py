@@ -11,11 +11,14 @@ class SubjectSerializer(serializers.ModelSerializer):
         model = Subject
         fields = ['title', 'professor', 'code']
 
+from rest_framework import serializers
+
 class UserToSubjectSerializer(serializers.ModelSerializer):
-    username = DefaultUserSerializer()
-    subjectname = SubjectSerializer()
+    username = serializers.SlugRelatedField(slug_field='username', queryset=Defaultuser.objects.all())
+    subjectname = serializers.SlugRelatedField(slug_field='title', queryset=Subject.objects.all())
 
     class Meta:
         model = User_to_subject
         fields = ['username', 'subjectname']
+
 
