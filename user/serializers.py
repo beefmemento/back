@@ -1,8 +1,21 @@
-from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from .models import Defaultuser, Subject, User_to_subject
 
-class UserSerializer(serializers.ModelSerializer):
+class DefaultUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = get_user_model()
-        fields = ['id', 'username', 'password', 'name', 'nickname', 'subject1', 'subject2', 'subject3', 'subject4', 'subject5', 'subject6', 'subject7', 'grades']
-        extra_kwargs = {'password': {'write_only': True}}
+        model = Defaultuser
+        fields = ['username', 'name', 'nickname', 'major', 'number']
+
+class SubjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subject
+        fields = ['title', 'professor', 'code']
+
+class UserToSubjectSerializer(serializers.ModelSerializer):
+    username = DefaultUserSerializer()
+    subjectname = SubjectSerializer()
+
+    class Meta:
+        model = User_to_subject
+        fields = ['username', 'subjectname']
+

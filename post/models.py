@@ -1,5 +1,5 @@
 from django.db import models
-from user.models import Defaultuser
+from user.models import Defaultuser, Subject
 
 class Post(models.Model):
     title = models.CharField(max_length=200) # 과목 명
@@ -9,5 +9,10 @@ class Post(models.Model):
     professor = models.CharField(max_length=255)  # 교수이름
     created_at = models.DateTimeField(auto_now_add=True) # 게시물 작성 날짜
     updated_at = models.DateTimeField(auto_now=True) # 수정날짜
-    
     mentor = models.ForeignKey(Defaultuser, on_delete=models.CASCADE) # 연결하는 FK
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE) # 연결하는 FK
+    # 과목에 대한 정보 (과목에 대한 class가 필요)
+
+    def __str__(self):
+        return f"{self.title} : {self.mentor}"
+
